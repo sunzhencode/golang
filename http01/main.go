@@ -11,14 +11,17 @@ import (
 func GetMyRequest(w http.ResponseWriter, r *http.Request) {
 	//获取全部请求头
 	h := r.Header
-	//从请求携带的参数中获取想要获取的环境变量
+	//从请求携带的参数中获取想要获取的环境变量，并返回到reqponse header
 	query := r.URL.Query()
 	env := query.Get("env")
 	version := os.Getenv(env)
-	w.Header().Set("version", version)
+	fmt.Println(version)
+	if version != "" {
+		w.Header().Set("version", version)
+	}
 	//将获取的请求头循环返回到reqponse header
 	for k, v := range h {
-		fmt.Println(k, v)
+		//fmt.Println(k, v)
 		value := strings.Join(v, ",")
 		w.Header().Set(k, value)
 	}
