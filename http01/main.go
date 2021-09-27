@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/golang/glog"
+	"fmt"
 	"net/http"
 )
 
@@ -13,6 +13,6 @@ func main() {
 	http.HandleFunc("/", GetMyReuqest)
 	err := http.ListenAndServe(":80", nil)
 	if err != nil {
-		glog.
+		fmt.Println(err)
 	}
 }
