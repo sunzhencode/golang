@@ -6,6 +6,10 @@ import (
 )
 
 func GetMyReuqest(w http.ResponseWriter, r *http.Request) {
+	h := r.Header
+	for k, v := range h {
+		fmt.Println(k, v)
+	}
 	_, _ = w.Write([]byte("Hello World!"))
 }
 
