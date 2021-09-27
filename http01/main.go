@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"net"
 	"net/http"
 	"os"
 	"strings"
@@ -25,6 +26,8 @@ func GetMyRequest(w http.ResponseWriter, r *http.Request) {
 		value := strings.Join(v, ",")
 		w.Header().Set(k, value)
 	}
+	ip, port, err := net.SplitHostPort(r.RemoteAddr)
+	fmt.Println(ip, port, err)
 	_, _ = w.Write([]byte("Hello World!"))
 }
 
