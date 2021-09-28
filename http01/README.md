@@ -20,4 +20,7 @@ curl -I 127.0.0.1?env=GOROOT
 ```bash
 curl -I 127.0.0.1/health
 ```
-
+### build
+```bash
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o bin/linux/amd64/http01  .
+ ```
