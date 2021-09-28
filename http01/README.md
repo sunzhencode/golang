@@ -7,8 +7,8 @@
 
 ### 使用方法
 
-* linux下运行文件 http01/bin/linux/amd64/http01
-* windows下运行文件 http01/bin/windows/amd64/http01.exe 
+* linux下运行文件 bin/linux/amd64/http01
+* windows下运行文件 bin/windows/amd64/http01.exe 
 
 ### 测试方法
 * 访问根路径并且获取环境变量，可以在响应头中查看到内容，并且可以在控制台看到访问日志
