@@ -6,9 +6,10 @@ import (
 )
 
 func Genslice(n int) []int {
-	arr := make([]int, 0, n)
+	arr := make([]int, 0, 10)
 	for i := 0; i < n; i++ {
 		arr = append(arr, rand.Intn(128))
+		fmt.Println(cap(arr))
 	}
 	return arr
 }
@@ -16,7 +17,6 @@ func Genslice(n int) []int {
 func Getdiff(arr []int) int {
 	m := make(map[int]bool)
 	for _, i := range arr {
-		fmt.Println(len(m))
 		m[i] = true
 	}
 	return len(m)
