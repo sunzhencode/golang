@@ -40,13 +40,22 @@ func printSix() {
 
 }
 
-func readAbc(path, outpath string) {
+func writeAbc(outpath, line string) {
 	//打开写操作的文件
 	fout, err := os.OpenFile(outpath, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0666)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
+	defer fout.Close()
+	writer := bufio.NewWriter(fout)
+	writer.WriteString(line)
+	writer.WriteString("\n")
+	writer.Flush()
+}
+
+func readAbc(path string) (s string) {
+
 	//打开读操作的文件
 	f, err := os.Open(path)
 	if err != nil {
@@ -54,28 +63,24 @@ func readAbc(path, outpath string) {
 		return
 	}
 
-	defer fout.Close()
-	writer := bufio.NewWriter(fout)
 	defer f.Close()
 	reader := bufio.NewReader(f)
-
 	for {
 		line, err := reader.ReadString('\n')
+		s = fmt.Sprintf("%s%s", s, line)
 		//line = strings.TrimRight(line, "\n")
 		//fmt.Println(line)
-		//写入读取到的内容
-		writer.WriteString(line)
 		if err != nil {
 			if err == io.EOF {
 				break
 			} else {
 				fmt.Println("Read file error!", err)
-				return
 			}
 		}
 	}
-	writer.WriteString("\n")
-	writer.Flush()
+	return
+	//writer.WriteString("\n")
+	//writer.Flush()
 	// 按行读取的方法
 	//for {
 	//	if line, _,err := reader.ReadLine(); err != nil {
@@ -138,7 +143,8 @@ func sumFile() {
 		for _, fileinfo := range fileinfos {
 			filename := fileinfo.Name()
 			if strings.HasSuffix(filename, ".txt") {
-				readAbc(filename, outfile)
+				outline := readAbc(filename)
+				writeAbc(outfile, outline)
 			}
 		}
 	}
