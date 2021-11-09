@@ -37,9 +37,17 @@ func timeFmt() {
 
 //输出未来4个周六日期（不考虑法定假日）
 func printSix() {
+	var t time.Time
 	today := time.Now()
-	sevenday := time.Duration(time.Hour * 24 * 7)
-	t := today.Add(sevenday)
+	weekday := int64(today.Weekday())
+	if weekday != 6 {
+		sub := 6 - weekday
+		to := time.Hour * 24 * time.Duration(sub)
+		t = today.Add(to)
+		fmt.Println(t.Format(TIME_FMT))
+	}
+	sevenday := time.Hour * 24 * 7
+	t = t.Add(sevenday)
 	fmt.Println(t.Format(TIME_FMT))
 }
 
