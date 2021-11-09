@@ -37,7 +37,10 @@ func timeFmt() {
 
 //输出未来4个周六日期（不考虑法定假日）
 func printSix() {
-
+	today := time.Now()
+	sevenday := time.Duration(time.Hour * 24 * 7)
+	t := today.Add(sevenday)
+	fmt.Println(t.Format(TIME_FMT))
 }
 
 func writeAbc(outpath, line string) {
@@ -152,5 +155,5 @@ func sumFile() {
 }
 
 func main() {
-	sumFile()
+	printSix()
 }
