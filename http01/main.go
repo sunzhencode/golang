@@ -1,9 +1,9 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"github.com/golang/glog"
+	"log"
 	"net"
 	"net/http"
 	"os"
@@ -11,13 +11,14 @@ import (
 )
 
 func main() {
-	flag.Set("v", "4")
+	//flag.Set("v", "4")
 	//flag.Parse()
-	glog.V(4).Info("start server")
+	log.Println("start server")
 	http.HandleFunc("/", GetMyRequest)
 	http.HandleFunc("/healthz", Healthz)
-	if err := http.ListenAndServe("0.0.0.0:80", nil); err != nil {
-		fmt.Println(err)
+	err := http.ListenAndServe("0.0.0.0:80", nil)
+	if err != nil {
+		log.Fatal(err)
 	}
 }
 
@@ -36,7 +37,8 @@ func GetMyRequest(w http.ResponseWriter, r *http.Request) {
 	for k, v := range h {
 		//fmt.Println(k, v)
 		value := strings.Join(v, ",")
-		w.Header().Set(k, value)
+		w.Header().Set(k, value) //写入到ResponseHeader
+		//io.WriteString(w, fmt.Sprintf("%s=%s\n", k, v)) //返回到页面
 	}
 	w.WriteHeader(200)
 	_, _ = w.Write([]byte("Hello World!"))
