@@ -9,7 +9,7 @@ import (
 	"sync"
 )
 
-// “/”路径函数
+// GetMyRequest “/”路径函数
 func GetMyRequest(w http.ResponseWriter, r *http.Request) {
 	//获取全部请求头
 	h := r.Header
@@ -31,14 +31,15 @@ func GetMyRequest(w http.ResponseWriter, r *http.Request) {
 	LogPrint(r)
 }
 
-// 作业四：健康检查函数
+// Healthz 作业四：健康检查函数
 func Healthz(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(200)
 	LogPrint(r)
 }
 
-// 作业三：使用生产者消费者模型，打印日志的函数
+// LogPrint 作业三：使用生产者消费者模型，打印日志的函数
 func LogPrint(r *http.Request) {
+	// 获取客户端IP
 	ip, _, _ := net.SplitHostPort(r.RemoteAddr)
 	AccessLog := fmt.Sprintf("clientip:%s,ststuscode:%d,URL:%s", ip, 200, r.URL)
 	q := Queue{

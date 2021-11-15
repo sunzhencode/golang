@@ -13,7 +13,7 @@ func (q *Queue) SendLog(item string) {
 	q.cond.L.Lock()
 	defer q.cond.L.Unlock()
 	q.queue = append(q.queue, item)
-	q.cond.Broadcast()
+	q.cond.Broadcast() //Broadcast 唤醒所有等待条件变量 c 的 goroutine，无需锁保护。
 }
 
 func (q *Queue) GetLog() string {
