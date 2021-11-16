@@ -24,7 +24,11 @@ curl -I 127.0.0.1/health
 ```bash
 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o bin/linux/amd64/http01  .
  ```
-### docker镜像地址
+
+
+
+### 构建Docker镜像
 ```bash
-sunzhenreg/golang-http:latest
+docker build -t sunzhenreg/golang-http:{tag} .
+docker push sunzhenreg/golang-http:latest
 ```

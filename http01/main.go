@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/golang/glog"
 	"log"
 	"net"
 	"net/http"
@@ -69,13 +68,13 @@ func GetMyRequest(w http.ResponseWriter, r *http.Request) {
 	}
 	w.WriteHeader(200)
 	_, _ = w.Write([]byte("Hello World!"))
-	glog.V(4).Info(logFmt(r))
+	log.Println(logFmt(r))
 }
 
 // Healthz 健康检查函数
 func Healthz(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(200)
-	glog.V(4).Info(logFmt(r))
+	log.Println(logFmt(r))
 }
 
 // 日志格式化 并获取真实IP
