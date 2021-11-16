@@ -1,25 +1,52 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"github.com/golang/glog"
 	"log"
 	"net"
 	"net/http"
 	"os"
+	"os/signal"
 	"strings"
+	"syscall"
+	"time"
 )
 
 func main() {
 	//flag.Set("v", "4")
 	//flag.Parse()
-	log.Println("start server")
-	http.HandleFunc("/", GetMyRequest)
-	http.HandleFunc("/healthz", Healthz)
-	err := http.ListenAndServe("0.0.0.0:80", nil)
-	if err != nil {
-		log.Fatal(err)
+	mux := http.NewServeMux() //初始化Handler
+	mux.HandleFunc("/", GetMyRequest)
+	mux.HandleFunc("/healthz", Healthz)
+	svc := http.Server{ //初始化server
+		Addr:    "0.0.0.0:80",
+		Handler: mux,
 	}
+	//err := svc.ListenAndServe()
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
+	// 监听系统信号：即将系统信号抽象成os.Signal通道
+	signalChan := make(chan os.Signal, 2)
+	signal.Notify(signalChan, syscall.SIGTERM, syscall.SIGINT, syscall.SIGQUIT)
+	go func() {
+		if err := svc.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			log.Fatalf("httpserver start fail：%s\n", err)
+		}
+	}()
+	log.Println("server starting")
+	<-signalChan // 没有信号时在这里阻塞，保证程序持续运行
+	log.Println("get signal server stop")
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer func() {
+		cancel()
+	}()
+	if err := svc.Shutdown(ctx); err != nil { //开始shutdown，并设置5s超时时间
+		log.Fatalf("shutdown fail %s\n", err)
+	}
+	log.Println("server quit")
 }
 
 // GetMyRequest “/”路径函数
