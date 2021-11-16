@@ -5,10 +5,18 @@
 3. Server 端记录访问日志包括客户端 IP，HTTP 返回码，输出到 server 端的标准输出
 4. 当访问 localhost/healthz 时，应返回 200
 
-### 使用方法
+### 目录结构
+* 代码 main.go
+* kubernetes部署yaml: deploy目录下
 
-* linux下运行文件 bin/linux/amd64/http01
-* windows下运行文件 bin/windows/amd64/http01.exe 
+### 编译二进制文件
+```bash
+make build
+```
+### 构建镜像
+```bash
+make docker-build
+```
 
 ### 测试方法
 * 访问根路径并且获取环境变量，可以在响应头中查看到内容，并且可以在控制台看到访问日志
