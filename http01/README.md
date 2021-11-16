@@ -26,8 +26,11 @@ make docker-build
 ```
 
 ### kubernetes 部署说明
-```bash
-使用env配置启动地址和端口  SERVER_ADDR:SERVER_PORT 默认：0.0.0.0:80
+```txt
+使用健康检查接口：/healthz 探测应用状态，实现pod声明周期管理
+使用pod反亲和，使pod部署在不同的主机上
+设置requests 小于 limit，pod为Burstable等级，同时提高了node资源利用率
+使用env配置启动地址和端口，配置与代码分离  SERVER_ADDR:SERVER_PORT 默认：0.0.0.0:80
 ```
 
 ### 测试方法
