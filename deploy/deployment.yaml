@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: httpserver
+  name: httpserver
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: httpserver
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    labels:
+      app: httpserver
+    spec:
+      containers:
+        - name: httpserver
+          image: sunzhenreg/golang-http:v1.0
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: SERVER_ADDR
+              value: "0.0.0.0"
+            - name: SERVER_PORT
+              value: "80"
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 80
+            initialDelaySeconds: 60
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 80
+            initialDelaySeconds: 60
+            periodSeconds: 5
+          startupProbe:
+            httpGet:
+              path: /healthz
+              port: 80
+            failureThreshold: 3
+            periodSeconds: 10
+          resources:
+            limits:
+              memory: 512Mi
+              cpu: 200m
+            requests:
+              memory: 256Mi
+              cpu: 100m
+          volumeMounts:
+            - mountPath: /etc/localtime
+              name: localtime
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - hostPath:
+            path: /etc/localtime
+            type: ''
+          name: localtime
