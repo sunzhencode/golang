@@ -6,4 +6,4 @@ build:
 
 docker-build:
 	docker build -t sunzhenreg/golang-http:${tag} .
-	docker push sunzhenreg/golang-http:${tag}:
+	docker push sunzhenreg/golang-http:${tag}
