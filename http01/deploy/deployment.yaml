@@ -6,7 +6,7 @@ metadata:
   name: httpserver
   namespace: default
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: httpserver
@@ -20,6 +20,16 @@ spec:
       labels:
         app: httpserver
     spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - httpserver
+              topologyKey: kubernetes.io/hostname
       containers:
         - name: httpserver
           image: sunzhenreg/golang-http:v1.0
