@@ -20,15 +20,12 @@ curl -I 127.0.0.1?env=GOROOT
 ```bash
 curl -I 127.0.0.1/health
 ```
-### build
+### build as linux
 ```bash
 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o bin/linux/amd64/http01  .
  ```
-
-
-
 ### 构建Docker镜像
 ```bash
 docker build -t sunzhenreg/golang-http:{tag} .
-docker push sunzhenreg/golang-http:latest
+docker push sunzhenreg/golang-http:{tag}
 ```
