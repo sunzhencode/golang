@@ -16,8 +16,9 @@ spec:
       maxUnavailable: 25%
     type: RollingUpdate
   template:
-    labels:
-      app: httpserver
+    metadata:
+      labels:
+        app: httpserver
     spec:
       containers:
         - name: httpserver
