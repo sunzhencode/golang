@@ -25,6 +25,11 @@ make build
 make docker-build
 ```
 
+### kubernetes 部署说明
+```bash
+使用env配置启动地址和端口  SERVER_ADDR:SERVER_PORT 默认：0.0.0.0:80
+```
+
 ### 测试方法
 * 访问根路径并且获取环境变量，可以在响应头中查看到内容，并且可以在控制台看到访问日志
 ```bash
@@ -34,13 +39,4 @@ curl -I 127.0.0.1?env=GOROOT
 * 健康检查
 ```bash
 curl -I 127.0.0.1/health
-```
-### build as linux
-```bash
-CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o bin/linux/amd64/http01  .
- ```
-### 构建Docker镜像
-```bash
-docker build -t sunzhenreg/golang-http:{tag} .
-docker push sunzhenreg/golang-http:{tag}
 ```
