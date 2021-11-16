@@ -58,10 +58,10 @@ spec:
           volumeMounts:
             - mountPath: /etc/localtime
               name: localtime
-      lifecycle:
-        preStop:
-          exec:
-            command: [ "echo","模拟优雅终止"]
+        lifecycle:
+          preStop:
+            exec:
+              command: [ "echo","模拟优雅终止"]
       restartPolicy: Always
       schedulerName: default-scheduler
       terminationGracePeriodSeconds: 30
