@@ -32,7 +32,7 @@ spec:
               topologyKey: kubernetes.io/hostname
       containers:
         - name: httpserver
-          image: sunzhenreg/golang-http:v1.0
+          image: sunzhenreg/golang-http:v2.0
           imagePullPolicy: IfNotPresent
           env:
             - name: SERVER_ADDR
