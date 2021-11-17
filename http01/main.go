@@ -13,6 +13,28 @@ import (
 	"time"
 )
 
+var (
+	Host string
+	Port string
+	Addr string
+)
+
+func init() {
+	host := os.Getenv("SERVER_ADDR")
+	if host == "" {
+		Host = "0.0.0.0"
+	} else {
+		Host = host
+	}
+	port := os.Getenv("SERVER_PORT")
+	if port == "" {
+		Port = "80"
+	} else {
+		Port = port
+	}
+	Addr = fmt.Sprintf("%s:%s", Host, Port)
+}
+
 func main() {
 	//flag.Set("v", "4")
 	//flag.Parse()
@@ -20,7 +42,7 @@ func main() {
 	mux.HandleFunc("/", GetMyRequest)
 	mux.HandleFunc("/healthz", Healthz)
 	svc := http.Server{ //初始化server
-		Addr:    "0.0.0.0:80",
+		Addr:    Addr,
 		Handler: mux,
 	}
 	//err := svc.ListenAndServe()
@@ -35,7 +57,7 @@ func main() {
 			log.Fatalf("httpserver start fail：%s\n", err)
 		}
 	}()
-	log.Println("server starting")
+	log.Printf("server starting at %s", Addr)
 	<-signalChan // 没有信号时在这里阻塞，保证程序持续运行
 	log.Println("get signal server stop")
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
