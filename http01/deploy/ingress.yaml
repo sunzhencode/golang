@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+  name: httpserver
+  namespace: default
+spec:
+  rules:
+    - host: www.example.com
+      http:
+        paths:
+          - backend:
+              serviceName: httpserver
+              servicePort: 80
+            path: /
+  tls:
+    - hosts:
+        - www.example.com
+      secretName: example-tls
