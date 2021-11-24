@@ -76,6 +76,8 @@ spec:
           volumeMounts:
             - mountPath: /etc/localtime
               name: localtime
+            - mountPath: /tmp/logs
+              name: log-volum
       restartPolicy: Always
       schedulerName: default-scheduler
       terminationGracePeriodSeconds: 30
@@ -84,3 +86,5 @@ spec:
             path: /etc/localtime
             type: ''
           name: localtime
+        - name: log-volume
+          emptyDir: {}
