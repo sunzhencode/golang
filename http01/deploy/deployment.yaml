@@ -35,9 +35,9 @@ spec:
           image: sunzhenreg/golang-http:v3.0
           imagePullPolicy: IfNotPresent
           args :
-            - "-log_dir /tmp/logs"
-            - "-v 4"
-            - "-alsologtostderr"
+            - -log_dir /tmp/logs
+            - -v 4
+            - -alsologtostderr
           env:
             - name: SERVER_ADDR
               value: "0.0.0.0"
