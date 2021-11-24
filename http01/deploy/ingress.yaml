@@ -8,13 +8,16 @@ metadata:
   namespace: default
 spec:
   rules:
-    - host: www.example.com
+    - host: cncamp.com
       http:
         paths:
-          - backend:
-              serviceName: httpserver
-              servicePort: 80
-            path: /
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: httpserver
+                port:
+                  number: 80
   tls:
     - hosts:
         - www.example.com
