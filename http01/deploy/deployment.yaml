@@ -32,13 +32,21 @@ spec:
               topologyKey: kubernetes.io/hostname
       containers:
         - name: httpserver
-          image: sunzhenreg/golang-http:v2.0
+          image: sunzhenreg/golang-http:v3.0
           imagePullPolicy: IfNotPresent
+          args :
+            - "-log_dir /tmp/logs"
+            - "-v 4"
+            - "-alsologtostderr"
           env:
             - name: SERVER_ADDR
               value: "0.0.0.0"
             - name: SERVER_PORT
               value: "80"
+          lifecycle:
+            preStop:
+              exec:
+                command: [ "echo","模拟优雅终止" ]
           livenessProbe:
             httpGet:
               path: /healthz
@@ -68,10 +76,6 @@ spec:
           volumeMounts:
             - mountPath: /etc/localtime
               name: localtime
-          lifecycle:
-            preStop:
-              exec:
-                command: [ "echo","模拟优雅终止"]
       restartPolicy: Always
       schedulerName: default-scheduler
       terminationGracePeriodSeconds: 30

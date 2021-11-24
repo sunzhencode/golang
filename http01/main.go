@@ -2,8 +2,9 @@ package main
 
 import (
 	"context"
+	"flag"
 	"fmt"
-	"log"
+	"github.com/golang/glog"
 	"net"
 	"net/http"
 	"os"
@@ -36,8 +37,8 @@ func init() {
 }
 
 func main() {
-	//flag.Set("v", "4")
-	//flag.Parse()
+	flag.Parse()
+	defer glog.Flush()
 	mux := http.NewServeMux() //初始化Handler
 	mux.HandleFunc("/", GetMyRequest)
 	mux.HandleFunc("/healthz", Healthz)
@@ -54,20 +55,21 @@ func main() {
 	signal.Notify(signalChan, syscall.SIGTERM, syscall.SIGINT, syscall.SIGQUIT)
 	go func() {
 		if err := svc.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			log.Fatalf("httpserver start fail：%s\n", err)
+			glog.Fatalf("httpserver start fail：%s\n", err)
 		}
 	}()
-	log.Printf("server starting at %s", Addr)
+	//log.Printf("server starting at %s", Addr)
+	glog.V(4).Info("server starting at ", Addr)
 	<-signalChan // 没有信号时在这里阻塞，保证程序持续运行
-	log.Println("get signal server stop")
+	glog.V(4).Info("get signal server stop")
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer func() {
 		cancel()
 	}()
 	if err := svc.Shutdown(ctx); err != nil { //开始shutdown，并设置5s超时时间
-		log.Fatalf("shutdown fail %s\n", err)
+		glog.Fatalf("shutdown fail %s\n", err)
 	}
-	log.Println("server quit")
+	glog.V(4).Info("server quit")
 }
 
 // GetMyRequest “/”路径函数
@@ -90,13 +92,13 @@ func GetMyRequest(w http.ResponseWriter, r *http.Request) {
 	}
 	w.WriteHeader(200)
 	_, _ = w.Write([]byte("Hello World!"))
-	log.Println(logFmt(r))
+	glog.V(4).Info(logFmt(r))
 }
 
 // Healthz 健康检查函数
 func Healthz(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(200)
-	log.Println(logFmt(r))
+	glog.V(4).Info(logFmt(r))
 }
 
 // 日志格式化 并获取真实IP

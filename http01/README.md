@@ -34,6 +34,14 @@ make docker-build
 使用env配置启动地址和端口，配置与代码分离  SERVER_ADDR:SERVER_PORT 默认：0.0.0.0:80
 ```
 
+### 命令行启动服务
+```bash
+go run main.go -log_dir log -alsologtostderr -v 4
+-log_dir 日志输出的路径
+-alsologtostderr 日志同时输出到控制台
+-v 4 日志级别
+```
+
 ### 测试方法
 * 访问根路径并且获取环境变量，可以在响应头中查看到内容，并且可以在控制台看到访问日志
 ```bash
