@@ -8,6 +8,7 @@ replicas: 2  副本数设置为2，保证服务高可用
 使用pod反亲和，使pod部署在不同的主机上
 设置requests 小于 limit，pod为Burstable等级，同时提高了node资源利用率
 程序读取env环境变量配置监听地址和端口，配置与代码分离  SERVER_ADDR:SERVER_PORT 默认：0.0.0.0:80
+通过启动参数flag设置glog的日志级别和日志保存目录，日志保存在vulome 的emptyDir中
 ```
 
 * 部署service
