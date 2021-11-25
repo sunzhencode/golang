@@ -8,7 +8,7 @@ metadata:
   namespace: default
 spec:
   rules:
-    - host: cncamp.com
+    - host: www.example.com
       http:
         paths:
           - path: "/"
