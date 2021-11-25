@@ -46,7 +46,7 @@ spec:
           lifecycle:
             preStop:
               exec:
-                command: [ "echo","模拟优雅终止" ]
+                command: ["/bin/sh", "-c", "echo 'Hello from the preStop handler"]
           livenessProbe:
             httpGet:
               path: /healthz
