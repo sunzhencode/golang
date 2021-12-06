@@ -38,11 +38,9 @@ spec:
             - -log_dir=/tmp/logs
             - -v=4
             - -alsologtostderr
-          env:
-            - name: SERVER_ADDR
-              value: "0.0.0.0"
-            - name: SERVER_PORT
-              value: "80"
+          envFrom:
+            - configMapRef:
+                name: httpserver-config
           lifecycle:
             preStop:
               exec:
