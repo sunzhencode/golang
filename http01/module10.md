@@ -33,5 +33,8 @@ helm upgrade --install loki ./loki-stack --set grafana.enabled=true,prometheus.e
 
 ### 创建grafana dashboard
 ```bash
-PromQL
+PromQL:  histogram_quantile(0.95, sum(rate(httpserver_execution_latency_seconds_bucket[5m])) by (le))
 ```
+
+### 显示效果
+![](image/dashboard.png)
