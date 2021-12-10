@@ -5,6 +5,9 @@ import (
 	"flag"
 	"fmt"
 	"github.com/golang/glog"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"http01/metrics"
+	"math/rand"
 	"net"
 	"net/http"
 	"os"
@@ -39,9 +42,12 @@ func init() {
 func main() {
 	flag.Parse()
 	defer glog.Flush()
+	metrics.Register()
 	mux := http.NewServeMux() //初始化Handler
 	mux.HandleFunc("/", GetMyRequest)
 	mux.HandleFunc("/healthz", Healthz)
+	mux.Handle("/metrics", promhttp.Handler())
+
 	svc := http.Server{ //初始化server
 		Addr:    Addr,
 		Handler: mux,
@@ -72,8 +78,15 @@ func main() {
 	glog.V(4).Info("server quit")
 }
 
+func randInt(min int, max int) int {
+	rand.Seed(time.Now().UTC().UnixNano())
+	return min + rand.Intn(max-min)
+}
+
 // GetMyRequest “/”路径函数
 func GetMyRequest(w http.ResponseWriter, r *http.Request) {
+	timer := metrics.NewTimer()
+	defer timer.ObserveTotal()
 	//获取全部请求头
 	h := r.Header
 	//作业二：从请求携带的参数中获取想要获取的环境变量，并返回到reqponse header
@@ -83,6 +96,10 @@ func GetMyRequest(w http.ResponseWriter, r *http.Request) {
 	if version != "" {
 		w.Header().Set("version", version)
 	}
+
+	delay := randInt(10, 2000)
+	time.Sleep(time.Millisecond * time.Duration(delay))
+	glog.V(4).Info("delay：", delay, "millisecond")
 	//作业一：将获取的请求头循环返回到reqponse header
 	for k, v := range h {
 		//fmt.Println(k, v)

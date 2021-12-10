@@ -1,4 +1,4 @@
-export tag=v3.0
+export tag=v4.0
 build:
 	echo "building httpserver binary"
 	mkdir -p bin/amd64
