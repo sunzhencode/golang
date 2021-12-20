@@ -23,4 +23,8 @@ kubectl apply -f istio-spec.yaml -n istiosvc
 ### test
 ```bash
 curl --resolve www.example.com:443:$INGRESS_IP https://www.example.com/healthz -v -k
+
+
+[root@sunzhen istio]# curl --resolve www.example.com:443:$INGRESS_IP https://www.example.com/  -k
+Hello World!  
 ```
