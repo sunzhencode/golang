@@ -28,9 +28,6 @@ spec:
             - -log_dir=/tmp/logs
             - -v=4
             - -alsologtostderr
-          envFrom:
-            - configMapRef:
-                name: httpserver-config
           ports:
             - containerPort: 80
           lifecycle:

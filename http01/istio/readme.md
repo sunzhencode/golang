@@ -17,5 +17,5 @@ kubectl create -n istio-system secret tls example-credential --key=example.key -
 kubectl create ns istiosvc
 kubectl apply -f deployment.yaml
 kubectl apply -f service.yaml
-kubectl apply -f istio-spec.yam
+kubectl apply -f istio-spec.yaml
 ```
