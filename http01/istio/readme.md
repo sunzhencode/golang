@@ -45,6 +45,7 @@ req, err := http.NewRequest("GET", "http://service1", nil)
 if err != nil {
 fmt.Printf("%s", err)
 }
+// 在go语言中需要把haader转化为小写，才可以向下正确传递
 lowerCaseHeader := make(http.Header)
 for key, value := range r.Header {
 lowerCaseHeader[strings.ToLower(key)] = value
