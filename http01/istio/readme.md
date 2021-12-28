@@ -32,7 +32,7 @@ Hello World!
 
 ### L7 route
 ```bash
-kubectl apply -f istio-l7.yaml
+kubectl apply -f istio-l7.yaml -n istiosvc
 
 [root@sunzhen istio]# curl --resolve www.example.com:443:$INGRESS_IP https://www.example.com/httpserver  -k
 Hello World!
