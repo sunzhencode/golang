@@ -40,6 +40,18 @@ Hello World!
 
 ## tracing
 ### edit main.go
-```go
+```
+req, err := http.NewRequest("GET", "http://service1", nil)
+if err != nil {
+fmt.Printf("%s", err)
+}
+lowerCaseHeader := make(http.Header)
+for key, value := range r.Header {
+lowerCaseHeader[strings.ToLower(key)] = value
+}
+glog.V(4).Info("headers:", lowerCaseHeader)
+req.Header = lowerCaseHeader
+client := &http.Client{}
+resp, err := client.Do(req)
 
 ```
