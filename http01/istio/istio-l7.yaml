@@ -1,0 +1,20 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: httpsserver
+spec:
+  gateways:
+    - httpsserver
+  hosts:
+    - www.example.com
+  http:
+    - match:
+         - uri:
+             exact: "/httpserver"
+         rewrite:
+           uri: "/"
+      route:
+        - destination:
+            host: httpserver.istiosvc.svc.cluster.local
+            port:
+              number: 80

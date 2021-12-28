@@ -1,3 +1,4 @@
+## use istio ingress gateway
 ### install istio
 ```bash
 curl -L https://istio.io/downloadIstio | sh -
@@ -27,4 +28,18 @@ curl --resolve www.example.com:443:$INGRESS_IP https://www.example.com/healthz -
 
 [root@sunzhen istio]# curl --resolve www.example.com:443:$INGRESS_IP https://www.example.com/  -k
 Hello World!  
+```
+
+### L7 route
+```bash
+kubectl apply -f istio-l7.yaml
+
+[root@sunzhen istio]# curl --resolve www.example.com:443:$INGRESS_IP https://www.example.com/httpserver  -k
+Hello World!
+```
+
+## tracing
+### edit main.go
+```go
+
 ```
