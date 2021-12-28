@@ -9,10 +9,10 @@ spec:
     - www.example.com
   http:
     - match:
-         - uri:
-             exact: "/httpserver"
-         rewrite:
-           uri: "/"
+      - uri:
+          exact: "/httpserver"
+      rewrite:
+        uri: "/"
       route:
         - destination:
             host: httpserver.istiosvc.svc.cluster.local
