@@ -75,6 +75,8 @@ kubectl -n tracing apply -f service0.yaml
 kubectl -n tracing apply -f service1.yaml
 kubectl -n tracing apply -f service2.yaml 
 kubectl apply -f istio-specs.yaml -n tracing
+
+curl $INGRESS_IP/service0
 ```
 
 
