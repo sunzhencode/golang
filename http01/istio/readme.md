@@ -67,7 +67,7 @@ kubectl edit configmap istio -n istio-system
           address: zipkin.istio-system:9411
         sampling: 100
 ```
-### deploy tracing
+### deploy tracing from cncamp/101
 ```bash
 kubectl create ns tracing
 kubectl label ns tracing istio-injection=enabled
