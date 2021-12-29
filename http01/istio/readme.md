@@ -59,5 +59,28 @@ resp, err := client.Do(req)
 
 ### install jaeger
 ```bash
+kubectl apply -f jaeger.yaml
+kubectl edit configmap istio -n istio-system
 
+      tracing:
+        zipkin:
+          address: zipkin.istio-system:9411
+        sampling: 100
+```
+deploy tracing
+```bash
+kubectl create ns tracing
+kubectl label ns tracing istio-injection=enabled
+kubectl -n tracing apply -f service0.yaml
+kubectl -n tracing apply -f service1.yaml
+kubectl -n tracing apply -f service2.yaml 
+kubectl apply -f istio-specs.yaml -n tracing
+```
+
+
+### forward jaeger
+```bash
+istioctl dashboard jaeger --address 0.0.0.0
+
+click on Find Traces
 ```
