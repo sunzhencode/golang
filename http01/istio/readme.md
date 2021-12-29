@@ -56,3 +56,8 @@ client := &http.Client{}
 resp, err := client.Do(req)
 
 ```
+
+### install jaeger
+```bash
+
+```
